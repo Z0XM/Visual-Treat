@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Animators\BlinkingColors.cpp" />
+    <ClCompile Include="src\Animators\Canvas.cpp" />
     <ClCompile Include="src\Animators\Shapes.cpp" />
     <ClCompile Include="src\Animators\Spiral.cpp" />
     <ClCompile Include="src\SFML_Control.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="src\Animators.hpp" />
     <ClInclude Include="src\Animators\BlinkingColors.hpp" />
+    <ClInclude Include="src\Animators\Canvas.hpp" />
     <ClInclude Include="src\Animators\Shapes.hpp" />
     <ClInclude Include="src\Animators\Spiral.hpp" />
     <ClInclude Include="src\SFML_Control.hpp" />

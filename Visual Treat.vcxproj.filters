@@ -30,6 +30,9 @@
     <ClCompile Include="src\Animators\BlinkingColors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Animators\Canvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SFML_Control.hpp">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Animators\BlinkingColors.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animators\Canvas.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

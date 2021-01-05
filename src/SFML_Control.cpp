@@ -5,6 +5,8 @@ void SFML_Control::InitWindow()
 {
 	window.create(sf::VideoMode(1200, 700), "mazeGame");
 	window.setFramerateLimit(60);
+	this->window.setMouseCursorVisible(false);
+	this->window.setKeyRepeatEnabled(false);
 }
 
 void SFML_Control::InitShapeAnim()
@@ -18,6 +20,11 @@ void SFML_Control::InitSpiral()
 	this->spiral = new Spiral(this->getWinSize() * 0.5f);
 }
 
+void SFML_Control::InitCanvas()
+{
+	this->canvas = new Canvas();
+}
+
 SFML_Control::SFML_Control()
 {
 	this->clock.restart();
@@ -29,6 +36,7 @@ SFML_Control::SFML_Control()
 	
 	this->shapeAnim = nullptr;
 	this->spiral = nullptr;
+	this->canvas = nullptr;
 }
 
 SFML_Control::~SFML_Control()
@@ -47,6 +55,7 @@ void SFML_Control::update()
 	if (!pauseSystem) {
 		if (this->shapeAnim != nullptr)this->shapeAnim->update(clock.getElapsedTime().asSeconds());
 		if (this->spiral != nullptr)this->spiral->update(clock.getElapsedTime().asSeconds());
+		if (this->canvas != nullptr)this->canvas->update(this->getMousePosition());
 		this->clock.restart();
 	}
 }
@@ -84,6 +93,14 @@ void SFML_Control::pollEvents()
 					spiral = nullptr;
 				}
 			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+				if (canvas == nullptr)this->InitCanvas();
+				else if(!canvas->handleKeyEvent(event.key.code) && event.key.code == sf::Keyboard::Numpad0) {
+					delete canvas;
+					canvas = nullptr;
+				}
+			}
 		}
 	}
 }
@@ -94,6 +111,7 @@ void SFML_Control::render()
 
 	if (this->shapeAnim != nullptr)shapeAnim->draw(window);
 	if (this->spiral != nullptr)spiral->draw(window);
+	if (this->canvas != nullptr)canvas->draw(window);
 
 	this->window.display();
 }

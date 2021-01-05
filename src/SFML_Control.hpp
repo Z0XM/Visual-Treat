@@ -11,10 +11,12 @@ private:
 
 	Shapes* shapeAnim;
 	Spiral* spiral;
+	Canvas* canvas;
 
 	void InitWindow();
 	void InitShapeAnim();
 	void InitSpiral();
+	void InitCanvas();
 public:
 	SFML_Control();
 	~SFML_Control();
