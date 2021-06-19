@@ -1,11 +1,15 @@
 #include "Canvas.hpp"
 #include "BlinkingColors.hpp"
 
+sf::Keyboard::Key Canvas::keyCode = sf::Keyboard::X;
+
 Canvas::Canvas()
 {
 	pauseTrail = false;
 	trailCount = 100;
 	type = sf::Points;
+
+	colorKey = sf::Keyboard::C;
 
 	int color_count = trailCount / 6;
 	BlinkingColors color;
@@ -45,14 +49,13 @@ void Canvas::draw(sf::RenderWindow& window)
 
 bool Canvas::handleKeyEvent(sf::Keyboard::Key key)
 {
-	if (key == sf::Keyboard::C) {
+	if (key == colorKey) {
 		pauseTrail = !pauseTrail;
-		return true;
 	}
-	else if (key == sf::Keyboard::Numpad1)type = sf::LineStrip;
-	else if (key == sf::Keyboard::Numpad2)type = sf::Triangles;
-	else if (key == sf::Keyboard::Numpad3)type = sf::TrianglesStrip;
-	else if (key == sf::Keyboard::Numpad4)type = sf::Quads;
+	else if (key == sf::Keyboard::Numpad1 || key == sf::Keyboard::Num1)type = sf::LineStrip;
+	else if (key == sf::Keyboard::Numpad2 || key == sf::Keyboard::Num2)type = sf::Triangles;
+	else if (key == sf::Keyboard::Numpad3 || key == sf::Keyboard::Num3)type = sf::TrianglesStrip;
+	else if (key == sf::Keyboard::Numpad4 || key == sf::Keyboard::Num4)type = sf::Quads;
 
 	return false;
 }

@@ -94,7 +94,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)SFML/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,7 +113,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)SFML/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -154,16 +154,22 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Animators\BlinkingColors.cpp" />
     <ClCompile Include="src\Animators\Canvas.cpp" />
+    <ClCompile Include="src\Animators\Light.cpp" />
     <ClCompile Include="src\Animators\Shapes.cpp" />
     <ClCompile Include="src\Animators\Spiral.cpp" />
+    <ClCompile Include="src\Animators\Stars.cpp" />
+    <ClCompile Include="src\MusicControl.cpp" />
     <ClCompile Include="src\SFML_Control.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animators.hpp" />
     <ClInclude Include="src\Animators\BlinkingColors.hpp" />
     <ClInclude Include="src\Animators\Canvas.hpp" />
+    <ClInclude Include="src\Animators\Light.hpp" />
     <ClInclude Include="src\Animators\Shapes.hpp" />
     <ClInclude Include="src\Animators\Spiral.hpp" />
+    <ClInclude Include="src\Animators\Stars.hpp" />
+    <ClInclude Include="src\MusicControl.hpp" />
     <ClInclude Include="src\SFML_Control.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

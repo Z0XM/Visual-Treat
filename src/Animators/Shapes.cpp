@@ -3,6 +3,8 @@
 
 #include "BlinkingColors.hpp"
 
+sf::Keyboard::Key Shapes::keyCode = sf::Keyboard::Q;
+
 Shapes::Shapes(int radius, sf::Vector2f position)
 	:position(position), radius(radius), points(4), revolution(sf::Transform::Identity), 
 	state(SINGLE), activeRotation(false), rotateAnglePerSecond(0), blinkColors(false), revolve(false)
@@ -10,6 +12,10 @@ Shapes::Shapes(int radius, sf::Vector2f position)
 	this->shapes.push_back(sf::CircleShape(radius, points));
 	this->shapes[0].setOrigin(radius, radius);
 	this->shapes[0].setPosition(position);
+
+	rotateKey = sf::Keyboard::R;
+	revolveKey = sf::Keyboard::O;
+	colorKey = sf::Keyboard::C;
 
 	second = 0;
 }
@@ -114,7 +120,7 @@ void Shapes::setRotateAngle(int input)
 
 bool Shapes::handleKeyEvent(sf::Keyboard::Key key)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+	if (sf::Keyboard::isKeyPressed(rotateKey)) {
 		if (key == sf::Keyboard::Numpad5) {
 			this->activeRotation = false;
 			return true;
@@ -125,12 +131,12 @@ bool Shapes::handleKeyEvent(sf::Keyboard::Key key)
 			return true;
 		}
 	}
-	if (key == sf::Keyboard::C) {
+	if (key == colorKey) {
 		this->blinkColors = !this->blinkColors;
 		return true;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-		if (key == sf::Keyboard::Numpad5) {
+	if (sf::Keyboard::isKeyPressed(revolveKey)) {
+		if (key == sf::Keyboard::Numpad5) { 
 			this->revolve = !this->revolve;
 			return true;
 		}
@@ -145,7 +151,7 @@ bool Shapes::handleKeyEvent(sf::Keyboard::Key key)
 		}
 	}
 
-	if (key >= sf::Keyboard::Numpad1 && key <= sf::Keyboard::Numpad9 && !sf::Keyboard::isKeyPressed(sf::Keyboard::O) && !sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
+	if (key >= sf::Keyboard::Numpad1 && key <= sf::Keyboard::Numpad9 && !sf::Keyboard::isKeyPressed(revolveKey) && !sf::Keyboard::isKeyPressed(rotateKey)){
 		this->setPointCount(key - sf::Keyboard::Numpad0 + 2);
 		return true;
 	}

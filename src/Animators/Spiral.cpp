@@ -1,11 +1,14 @@
 #include "Spiral.hpp"
 #include "BlinkingColors.hpp"
 
+sf::Keyboard::Key Spiral::keyCode = sf::Keyboard::S;
+
 void Spiral::reset()
 {
 	second = 0;
-	int factor = lines? 50 : 2;
-	totalPoints = lines ? 20 : 250;
+	int factor = lines? 25 : 2;
+	totalPoints = lines ? 40 : 250;
+	int colorWidth = lines ? 5 : 10;
 
 	BlinkingColors color;
 
@@ -20,7 +23,7 @@ void Spiral::reset()
 
 		points[i][4] = points[i][0];
 
-		color.next();
+		if(i%colorWidth == 0)color.prev();
 	}
 
 	normalRotate = false;
@@ -29,6 +32,13 @@ void Spiral::reset()
 	rotateCounter = 0;
 
 	revolution = sf::Transform::Identity;
+
+	leftKey = sf::Keyboard::J;
+	rightKey = sf::Keyboard::L;
+	resetKey = sf::Keyboard::R;
+	stopKey = sf::Keyboard::K;
+	switchModeKey = sf::Keyboard::I;
+	colorKey = sf::Keyboard::C;
 }
 
 Spiral::Spiral(sf::Vector2f position)
@@ -80,10 +90,10 @@ void Spiral::update(float dt)
 
 void Spiral::draw(sf::RenderWindow& window)
 {
-	sf::CircleShape circle(2);
-	circle.setOrigin(2, 2);
+	sf::RectangleShape circle({ 3, 3 });
+	circle.setOrigin(1.5, 1.5);
 	for (int i = 0; i < totalPoints; i++) {
-		if (lines)window.draw(points[i], 5, sf::LineStrip);
+		if (lines)window.draw(points[i], 5, lines == 1? sf::Lines : sf::LinesStrip);
 		else if(circles){
 			for (int j = 0; j < 4; j++) {
 				circle.setPosition(points[i][j].position);
@@ -97,8 +107,8 @@ void Spiral::draw(sf::RenderWindow& window)
 
 bool Spiral::handleKeyEvent(sf::Keyboard::Key key)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		if (key == sf::Keyboard::L) {
+	if (sf::Keyboard::isKeyPressed(keyCode)) {
+		if (key == rightKey) {
 			startRotate = true;
 			normalRotate = false;
 			revolution = sf::Transform::Identity;
@@ -106,7 +116,7 @@ bool Spiral::handleKeyEvent(sf::Keyboard::Key key)
 			rotateCounter = 0;
 			return true;
 		}
-		else if (key == sf::Keyboard::J) {
+		else if (key == leftKey) {
 			startRotate = true;
 			normalRotate = false;
 			revolution = sf::Transform::Identity;
@@ -114,26 +124,27 @@ bool Spiral::handleKeyEvent(sf::Keyboard::Key key)
 			rotateCounter = 0;
 			return true;
 		}
-		else if (key == sf::Keyboard::K) {
+		else if (key == stopKey) {
 			startRotate = false;
 			normalRotate = false;
 			return true;
 		}
-		else if (key == sf::Keyboard::R) {
+		else if (key == resetKey) {
 			reset();
 			return true;
 		}
-		else if (key == sf::Keyboard::I) {
-			lines = !lines;
+		else if (key == switchModeKey) {
+			lines = (lines+1)%3;
 			reset();
 			return true;
 		}
-		else if (key == sf::Keyboard::C) {
+		else if (key == colorKey) {
 			circles = !circles;
 			return true;
 		}
-		if (key >= sf::Keyboard::Numpad0 && sf::Keyboard::Numpad9) {
+		if (key > sf::Keyboard::Numpad0 && key <= sf::Keyboard::Numpad9) {
 			speed = key - sf::Keyboard::Numpad0;
+			return true;
 		}
 	}
 	return false;

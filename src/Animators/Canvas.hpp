@@ -7,6 +7,8 @@ class Canvas {
 	int trailCount;
 	bool pauseTrail;
 	sf::PrimitiveType type;
+
+	sf::Keyboard::Key colorKey;
 public:
 
 	Canvas();
@@ -15,4 +17,6 @@ public:
 	void draw(sf::RenderWindow& window);
 
 	bool handleKeyEvent(sf::Keyboard::Key key);
+
+	static sf::Keyboard::Key keyCode;
 };

@@ -3,7 +3,7 @@
 
 void SFML_Control::InitWindow()
 {
-	window.create(sf::VideoMode(1200, 700), "mazeGame");
+	window.create(sf::VideoMode(1200, 700), "Visual Treat");
 	window.setFramerateLimit(60);
 	this->window.setMouseCursorVisible(false);
 	this->window.setKeyRepeatEnabled(false);
@@ -25,6 +25,16 @@ void SFML_Control::InitCanvas()
 	this->canvas = new Canvas();
 }
 
+void SFML_Control::InitStars()
+{
+	this->stars = new Stars(this->getWinSize());
+}
+
+void SFML_Control::InitNewLight()
+{
+	Light::add(lightTexture, this->getWinSize());
+}
+
 SFML_Control::SFML_Control()
 {
 	this->clock.restart();
@@ -37,11 +47,14 @@ SFML_Control::SFML_Control()
 	this->shapeAnim = nullptr;
 	this->spiral = nullptr;
 	this->canvas = nullptr;
+	this->stars = nullptr;
+
+	lightTexture.loadFromFile("data/star.png");
 }
 
 SFML_Control::~SFML_Control()
 {
-
+	Light::destroy();
 }
 
 bool SFML_Control::isRunning()
@@ -56,6 +69,8 @@ void SFML_Control::update()
 		if (this->shapeAnim != nullptr)this->shapeAnim->update(clock.getElapsedTime().asSeconds());
 		if (this->spiral != nullptr)this->spiral->update(clock.getElapsedTime().asSeconds());
 		if (this->canvas != nullptr)this->canvas->update(this->getMousePosition());
+		if (this->stars != nullptr)this->stars->update(clock.getElapsedTime().asSeconds());
+		Light::update(clock.getElapsedTime().asSeconds());
 		this->clock.restart();
 	}
 }
@@ -76,9 +91,11 @@ void SFML_Control::pollEvents()
 
 		}
 		else if (event.type == sf::Event::KeyPressed) {
+			if(event.key.code == sf::Keyboard::Escape)this->running = false;
+
 			if (event.key.code == sf::Keyboard::Space)pauseSystem = !pauseSystem;
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+			if (sf::Keyboard::isKeyPressed(Shapes::keyCode)) {
 				if (shapeAnim == nullptr)this->InitShapeAnim();
 				else if (!shapeAnim->handleKeyEvent(event.key.code) && event.key.code == sf::Keyboard::Numpad0) {
 					delete shapeAnim;
@@ -86,7 +103,7 @@ void SFML_Control::pollEvents()
 				}
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			if (sf::Keyboard::isKeyPressed(Spiral::keyCode)) {
 				if (spiral == nullptr)this->InitSpiral();
 				else if (!spiral->handleKeyEvent(event.key.code) && event.key.code == sf::Keyboard::Numpad0) {
 					delete spiral;
@@ -94,12 +111,30 @@ void SFML_Control::pollEvents()
 				}
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+			if (sf::Keyboard::isKeyPressed(Canvas::keyCode)) {
 				if (canvas == nullptr)this->InitCanvas();
 				else if(!canvas->handleKeyEvent(event.key.code) && event.key.code == sf::Keyboard::Numpad0) {
 					delete canvas;
 					canvas = nullptr;
 				}
+			}
+
+			if (sf::Keyboard::isKeyPressed(Stars::keyCode)) {
+				if (stars == nullptr)this->InitStars();
+				else if (!stars->handleKeyEvent(event.key.code) && event.key.code == sf::Keyboard::Numpad0) {
+					delete stars;
+					stars = nullptr;
+				}
+			}
+
+			if (sf::Keyboard::isKeyPressed(Music::keyCode)) {
+				if (music.getStatus() == sf::Music::Stopped)Music::load(music);
+				Music::handleKeyEvent(music, event.key.code);
+				if(event.key.code == sf::Keyboard::Numpad0)music.stop();
+			}
+
+			if (event.key.code == Light::keyCode) {
+				this->InitNewLight();
 			}
 		}
 	}
@@ -112,6 +147,8 @@ void SFML_Control::render()
 	if (this->shapeAnim != nullptr)shapeAnim->draw(window);
 	if (this->spiral != nullptr)spiral->draw(window);
 	if (this->canvas != nullptr)canvas->draw(window);
+	if (this->stars != nullptr)stars->draw(window);
+	Light::draw(window);
 
 	this->window.display();
 }

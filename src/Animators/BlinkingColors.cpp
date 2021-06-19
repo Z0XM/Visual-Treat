@@ -1,5 +1,16 @@
 #include "BlinkingColors.hpp"
 
+int BlinkingColors::colorArrSize = 6;
+sf::Color BlinkingColors::colorArr[6] =
+{
+	sf::Color(255,255,255,255),// White
+	sf::Color(255,255,0,255),  // Yellow
+	sf::Color(255,0,0,255),    // Red
+	sf::Color(255,0,255,255),  // Magenta
+	sf::Color(0,0,255,255),    // Blue
+	sf::Color(0,255,255,255)   // Cyan
+};
+
 BlinkingColors::BlinkingColors()
 {
 	current = sf::Color::White;
@@ -7,12 +18,22 @@ BlinkingColors::BlinkingColors()
 
 void BlinkingColors::next()
 {
-	if (current == sf::Color::White)current = sf::Color::Yellow;
-	else if (current == sf::Color::Yellow)current = sf::Color::Red;
-	else if (current == sf::Color::Red)current = sf::Color::Magenta;
-	else if (current == sf::Color::Magenta)current = sf::Color::Blue;
-	else if (current == sf::Color::Blue)current = sf::Color::Cyan;
-	else if (current == sf::Color::Cyan)current = sf::Color::White;
+	for (int i = 0; i < colorArrSize; i++) {
+		if (current == colorArr[i]) {
+			current = colorArr[(i + 1) % colorArrSize];
+			break;
+		}
+	}
+}
+
+void BlinkingColors::prev()
+{
+	for (int i = 0; i < colorArrSize; i++) {
+		if (current == colorArr[i]) {
+			current = colorArr[(i - 1 + colorArrSize) % colorArrSize];
+			break;
+		}
+	}
 }
 
 void BlinkingColors::reset()
@@ -27,10 +48,13 @@ sf::Color BlinkingColors::getColor()
 
 sf::Color BlinkingColors::next(sf::Color color)
 {
-	if (color == sf::Color::White)return sf::Color::Yellow;
-	if (color == sf::Color::Yellow)return sf::Color::Red;
-	if (color == sf::Color::Red)return sf::Color::Magenta;
-	if (color == sf::Color::Magenta)return sf::Color::Blue;
-	if (color == sf::Color::Blue)return sf::Color::Cyan;
-	if (color == sf::Color::Cyan)return sf::Color::White;
+	for (int i = 0; i < colorArrSize; i++) {
+		if (color == colorArr[i])return colorArr[(i + 1) % colorArrSize];
+	}
+	return sf::Color::White;
+}
+
+sf::Color BlinkingColors::random()
+{
+	return colorArr[rand() % colorArrSize];
 }

@@ -11,6 +11,8 @@ class Shapes
 
 	float second;
 
+	sf::Keyboard::Key rotateKey, revolveKey, colorKey;
+
 public:
 	Shapes(int radius, sf::Vector2f position);
 	~Shapes();
@@ -35,4 +37,6 @@ public:
 	float rotateAnglePerSecond;
 	bool blinkColors;
 	bool revolve;
+
+	static sf::Keyboard::Key keyCode;
 };

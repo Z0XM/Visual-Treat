@@ -17,7 +17,10 @@ class Spiral {
 	int speed;
 
 	bool circles;
-	bool lines;
+	short lines;
+
+	sf::Keyboard::Key leftKey, rightKey, stopKey, switchModeKey, colorKey, resetKey;
+
 public:
 	Spiral(sf::Vector2f position);
 	~Spiral();
@@ -29,4 +32,6 @@ public:
 
 	bool handleKeyEvent(sf::Keyboard::Key key);
 	void reset();
+
+	static sf::Keyboard::Key keyCode;
 };
